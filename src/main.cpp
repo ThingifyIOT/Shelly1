@@ -1,8 +1,7 @@
 #include <Arduino.h>
 #include <ThingifyEsp.h>
-#include <DebugNodesModule.h>
 
-ThingifyEsp thing("<token>", "Sample Thing");
+ThingifyEsp thing("Shelly1");
 
 
 bool OnBoolChanged(void*_, Node *node)
@@ -27,30 +26,17 @@ bool OnNodeValueChanged(void*_, Node *node)
 	return true;
 }
 
-NodeValue FunctionExecuted(void* context, FunctionArguments &args)
-{
-	return NodeValue::String("Hello from function!");
-}
-
-
 void setup()
 {
-	Serial.begin(500000);
-
-	auto debugNodes = new DebugNodesModule(thing);
-	debugNodes->UpdateIntervalInMs = 1000;
-	thing.AddModule(debugNodes);
-	thing.WatchdogEnabled = true;
+	Serial.begin(500000);	
+	thing.AddDiagnostics();
 
   thing.AddBoolean("bool")->OnChanged(OnNodeValueChanged);
-  thing.AddFunction("Function", FunctionExecuted);
   thing.AddInt("integer", ThingifyUnit::Volt)->SetValue(NodeValue::Int(220));
   thing.AddRange("range", 10, 30, 2, ThingifyUnit::Percent)->OnChanged(OnNodeValueChanged);
   thing.AddColor("Color")->OnChanged(OnNodeValueChanged);
 	thing.Start();
 }
-
-
 
 void loop()
 {
