@@ -2,8 +2,8 @@
 #include <ThingifyEsp.h>
 
 ThingifyEsp thing("Shelly1");
-
-
+Node* switchNode;
+bool previousSwitchState = false;
 const int RelayPin = 4;
 const int SwitchPin = 5;
 
@@ -17,14 +17,22 @@ void setup()
 {
 	Serial.begin(500000);	
 	thing.AddDiagnostics();
+	
+	pinMode(SwitchPin, INPUT);
+    pinMode(RelayPin, OUTPUT);
 
-  pinMode(RelayPin, OUTPUT);
-
-  thing.AddBoolean("Switch")->OnChanged(OnBoolChanged);
+    switchNode = thing.AddBoolean("Switch")->OnChanged(OnBoolChanged);
 	thing.Start();
 }
 
 void loop()
 {
+	auto switchState = digitalRead(SwitchPin);
+	if(switchState != previousSwitchState)
+	{
+		switchNode->SetValue(NodeValue::Boolean(!switchNode->Value.AsBool()));
+	}
+	previousSwitchState = switchState;
+	
 	thing.Loop();
 }
