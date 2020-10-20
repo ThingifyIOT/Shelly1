@@ -9,7 +9,7 @@ const int SwitchPin = 5;
 
 bool OnBoolChanged(void*_, Node *node)
 {
-    digitalWrite(RelayPin, node->Value.AsBool());
+	digitalWrite(RelayPin, node->Value.AsBool());
   	return true;
 }
 
