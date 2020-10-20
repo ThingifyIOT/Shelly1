@@ -17,11 +17,11 @@ void setup()
 {
 	Serial.begin(500000);	
 	thing.AddDiagnostics();
-	
-	pinMode(SwitchPin, INPUT);
-    pinMode(RelayPin, OUTPUT);
 
-    switchNode = thing.AddBoolean("Switch")->OnChanged(OnBoolChanged);
+	pinMode(SwitchPin, INPUT);
+	pinMode(RelayPin, OUTPUT);
+
+	switchNode = thing.AddBoolean("Switch")->OnChanged(OnBoolChanged);
 	thing.Start();
 }
 
