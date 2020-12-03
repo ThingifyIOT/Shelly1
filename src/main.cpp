@@ -7,6 +7,7 @@ bool previousSwitchState = false;
 const int RelayPin = 4;
 const int SwitchPin = 5;
 
+
 bool OnBoolChanged(void*_, Node *node)
 {
 	digitalWrite(RelayPin, node->Value.AsBool());
