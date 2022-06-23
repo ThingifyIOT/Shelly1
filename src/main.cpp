@@ -16,7 +16,8 @@ bool OnBoolChanged(void*_, Node *node)
 
 void setup()
 {
-	Serial.begin(500000);	
+	Serial.begin(500000);
+    thing.Initialize();	
 	thing.AddDiagnostics();
 
 	pinMode(SwitchPin, INPUT);
